@@ -13,10 +13,14 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v6
 
-      - name: Set up Node
-        uses: actions/setup-node@v5
+      - uses: pnpm/setup@v1
         with:
-          node-version: 22
+          version: 12
+          runtime: node@24
+          cache: true
 
-      - name: Check node version
-        run: node --version
+      - name: Install dependencies
+        run: pnpm ci
+
+      - name: Run vitest
+        run: pnpm run test
