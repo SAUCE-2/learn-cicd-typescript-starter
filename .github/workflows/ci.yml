@@ -23,7 +23,7 @@ jobs:
         run: pnpm ci
 
       - name: Run vitest
-        run: pnpm run test -- --coverage
+        run: pnpm run test --coverage
 
   style:
     name: Style
@@ -46,4 +46,4 @@ jobs:
         run: pnpm run format:check
 
       - name: Check linting
-        run: pnpm run lint -- --max-warnings=0
+        run: pnpm run lint --max-warnings=0
