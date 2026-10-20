@@ -23,4 +23,27 @@ jobs:
         run: pnpm ci
 
       - name: Run vitest
-        run: pnpm run test -- --coverage
+        run: pnpm run test --coverage
+
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
+      - uses: pnpm/setup@v1
+        with:
+          version: 12
+          runtime: node@24
+          cache: true
+
+      - name: Install dependencies
+        run: pnpm ci
+
+      - name: Check formatting
+        run: pnpm run format:check
+
+      - name: Check linting
+        run: pnpm run lint --max-warnings=0
