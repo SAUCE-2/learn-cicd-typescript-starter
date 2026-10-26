@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
+    permissions:
+      id-token: 'write'
+
     steps:
       - name: Check out code
         uses: actions/checkout@v6
@@ -25,3 +28,18 @@ jobs:
 
       - name: Build
         run: pnpm run build
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: 'projects/561781171536/locations/global/workloadIdentityPools/github/providers/my-repo'
+          service_account: 'cloud-run-deployer@notely-512723.iam.gserviceaccount.com'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v3'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: 'build and push docker image'
+        run: 'gcloud builds submit --tag us-central1-docker.pkg.dev/notely-512723/notely-ar-repo/notely:latest .'
